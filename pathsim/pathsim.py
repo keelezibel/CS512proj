@@ -5,7 +5,6 @@ import time
 import argparse
 import constants
 
-
 def read_data(datafile):
     return pandas.read_csv(
         datafile, sep='\t', index_col=False)
@@ -103,11 +102,11 @@ def top_k_similar(actor_name, k, matrix):
     return similar[0:k]
 
 
-def get_test_result(matrixAXA, test_actors):
+def get_test_result(k, matrixAXA, test_actors):
     temp_results = []
 
     for test_actor, _ in test_actors.iterrows():
-        top_k = top_k_similar(test_actor, 10, matrixAXA)
+        top_k = top_k_similar(test_actor, k, matrixAXA)
         temp_results.append(top_k.index.tolist())
 
     resultAXA = pandas.DataFrame(temp_results)
@@ -133,10 +132,19 @@ matrixRA, matrixRL = create_matrices(
 
 # compute result using meta-path ARA
 matrixARA = create_matrixARA(matrixRA, args.traindir)
-resultARA = get_test_result(matrixARA, test_actors)
-resultARA.to_csv('pathsimARA.csv', header=False)
+resultARA = get_test_result(5, matrixARA, test_actors)
+resultARA.to_csv('pathsimARA_5.csv', header=False)
+resultARA = get_test_result(10, matrixARA, test_actors)
+resultARA.to_csv('pathsimARA_10.csv', header=False)
+resultARA = get_test_result(15, matrixARA, test_actors)
+resultARA.to_csv('pathsimARA_15.csv', header=False)
+
 
 # compute result using meta-path ARLRA
 matrixARLRA = create_matrixARLRA(matrixRL, matrixRA, args.traindir)
-resultARLRA = get_test_result(matrixARLRA, test_actors)
-resultARLRA.to_csv('pathsimARLRA.csv', header=False)
+resultARLRA = get_test_result(5, matrixARLRA, test_actors)
+resultARLRA.to_csv('pathsimARLRA_5.csv', header=False)
+resultARLRA = get_test_result(10, matrixARLRA, test_actors)
+resultARLRA.to_csv('pathsimARLRA_5.csv', header=False)
+resultARLRA = get_test_result(15, matrixARLRA, test_actors)
+resultARLRA.to_csv('pathsimARLRA_5.csv', header=False)
