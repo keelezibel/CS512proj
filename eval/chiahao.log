@@ -1,0 +1,60 @@
+
+For  ../pathsim/pathsimARA_5.csv : 
+ Out of your total  6290 predictions,  3522 of them are indeed co-commiters. 
+That's  55.99364069952305 percent corrent. 
+(See eval_result.csv to know which of them you got wrong. )
+
+For  ../pathsim/pathsimARA_10.csv : 
+ Out of your total  12580 predictions,  5068 of them are indeed co-commiters. 
+That's  40.28616852146264 percent corrent. 
+(See eval_result.csv to know which of them you got wrong. )
+
+For  ../pathsim/pathsimARA_15.csv : 
+ Out of your total  18870 predictions,  6207 of them are indeed co-commiters. 
+That's  32.89348171701113 percent corrent. 
+(See eval_result.csv to know which of them you got wrong. )
+
+For  ../pathsim/pathsimARLRA_5.csv : 
+ Out of your total  6290 predictions,  1873 of them are indeed co-commiters. 
+That's  29.777424483306834 percent corrent. 
+(See eval_result.csv to know which of them you got wrong. )
+
+For  ../pathsim/pathsimARLRA_10.csv : 
+ Out of your total  12580 predictions,  2418 of them are indeed co-commiters. 
+That's  19.220985691573926 percent corrent. 
+(See eval_result.csv to know which of them you got wrong. )
+
+For  ../pathsim/pathsimARLRA_15.csv : 
+ Out of your total  18870 predictions,  2929 of them are indeed co-commiters. 
+That's  15.52199258081611 percent corrent. 
+(See eval_result.csv to know which of them you got wrong. )
+
+For  ../ppagerank/ppagerankARA_5.csv : 
+ Out of your total  6290 predictions,  2539 of them are indeed co-commiters. 
+That's  40.36565977742448 percent corrent. 
+(See eval_result.csv to know which of them you got wrong. )
+
+For  ../ppagerank/ppagerankARA_10.csv : 
+ Out of your total  12580 predictions,  3696 of them are indeed co-commiters. 
+That's  29.379968203497615 percent corrent. 
+(See eval_result.csv to know which of them you got wrong. )
+
+For  ../ppagerank/ppagerankARA_15.csv : 
+ Out of your total  18870 predictions,  4593 of them are indeed co-commiters. 
+That's  24.340222575516695 percent corrent. 
+(See eval_result.csv to know which of them you got wrong. )
+
+For  ../ppagerank/ppagerankARLRA_5.csv : 
+ Out of your total  6290 predictions,  1398 of them are indeed co-commiters. 
+That's  22.225755166931638 percent corrent. 
+(See eval_result.csv to know which of them you got wrong. )
+
+For  ../ppagerank/ppagerankARLRA_10.csv : 
+ Out of your total  12580 predictions,  1543 of them are indeed co-commiters. 
+That's  12.26550079491256 percent corrent. 
+(See eval_result.csv to know which of them you got wrong. )
+
+For  ../ppagerank/ppagerankARLRA_15.csv : 
+ Out of your total  18870 predictions,  1728 of them are indeed co-commiters. 
+That's  9.157392686804451 percent corrent. 
+(See eval_result.csv to know which of them you got wrong. )
