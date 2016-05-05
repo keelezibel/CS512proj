@@ -1,9 +1,8 @@
-import csv
 import numpy
 import pandas
-import time
 import argparse
 import constants
+
 
 def read_data(datafile):
     return pandas.read_csv(
@@ -33,6 +32,7 @@ def set_relation(matrixRX, type_x, datafile):
             # make sure a repository gets one language only once
             matrixRX.loc[cur_repo][cur_x] = 1
         else:
+            # TODO compare performance: +=1, =1, normalized
             matrixRX.loc[cur_repo][cur_x] += 1
 
 

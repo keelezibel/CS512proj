@@ -1,71 +1,62 @@
 import pandas
 import numpy
-import csv
+import argparse
 
 import constants
 
 
-def read_author():
+def read_x(filename, savedir):
     return pandas.read_csv(
-        constants.datapath + constants.AUTHOR + '.txt',
+        savedir + '/' + filename + '.csv',
         sep='\t', index_col=0, header=None)
 
 
-def parse_link(matrix, metapath):
-    with open(constants.datapath + metapath + '.txt', newline='') as csvfile:
-        reader = csv.reader(csvfile, delimiter='\t')
-
-        for row in reader:
-            aid1, aid2 = row
-            aid1 = int(aid1)
-            aid2 = int(aid2)
-
-            matrix.loc[aid1, aid2] += 1
-            matrix.loc[aid2, aid1] += 1
-
-            if matrix.loc[aid1, aid2] > 1:
-                print('m[', aid1, ', ', aid2, '] = ', matrix.loc[aid1, aid2])
+def get_adjacency(metapath, traindir):
+    matrixAXA = pandas.DataFrame.from_csv(
+        traindir + '/' + 'matrix' + metapath + '.csv')
+    matrixAXA[matrixAXA != 0] = 1
+    return matrixAXA
 
 
-def create_adjacency_matrix(metapath, author):
-    filepath = constants.datapath + 'adjacency_matrix_for_' + metapath + '.csv'
+def create_adjacency_matrix(metapath, actors, traindir):
+    matrix_csv = 'adjacency_matrix_for_' + metapath + '.csv'
 
     try:
-        adjacency = pandas.DataFrame.from_csv(filepath)
+        adjacency = pandas.DataFrame.from_csv(matrix_csv)
         adjacency.columns = adjacency.index.values
         # print('matrix is loaded')
     except IOError:
-        # initialize
-        adjacency = pandas.DataFrame(
-            numpy.identity(len(author)))
-        adjacency = adjacency.set_index(author.index.values)
-        adjacency.columns = author.index.values
+        # initialize matrix AXA
+        # adjacency = pandas.DataFrame(
+        #     numpy.identity(len(actors)))
+        # adjacency = adjacency.set_index(actors.index.values)
+        # adjacency.columns = actors.index.values
 
-        parse_link(adjacency, metapath)
+        adjacency = get_adjacency(metapath, traindir)
 
         # normalize the matrix
         row_sum = adjacency.sum(axis=1)
         adjacency = adjacency.div(row_sum, axis='rows')
 
-        adjacency.to_csv(filepath)
+        adjacency.to_csv(matrix_csv)
         # print('matrix is saved')
 
     print('\nadjacency:\n', adjacency)
     return adjacency
 
 
-def p_pagerank(qid, adjacency, author):
+def p_pagerank(test_actor, adjacency, actors):
     # create preference vector u
     preference = pandas.DataFrame(
-        numpy.zeros(shape=(len(author), 1)))
-    preference = preference.set_index(author.index.values)
-    preference.loc[qid] = 1
+        numpy.zeros(shape=(len(actors), 1)))
+    preference = preference.set_index(actors.index.values)
+    preference.loc[test_actor] = 1
 
     # initialize scores vector v
     score = pandas.DataFrame(
-        numpy.ones(shape=(len(author), 1)))
-    score = score / len(author)
-    score = score.set_index(author.index.values)
+        numpy.ones(shape=(len(actors), 1)))
+    score = score / len(actors)
+    score = score.set_index(actors.index.values)
 
     # iterate
     t = constants.ITERATION_TIME
@@ -77,8 +68,8 @@ def p_pagerank(qid, adjacency, author):
     return score
 
 
-def top_k_similar(qid, k, adjacency, author):
-    similar = p_pagerank(qid, adjacency, author)
+def top_k_similar(test_actor, k, adjacency, actors):
+    similar = p_pagerank(test_actor, adjacency, actors)
     similar = similar.squeeze()
     similar = similar.copy()
 
@@ -86,16 +77,30 @@ def top_k_similar(qid, k, adjacency, author):
     return similar[0:k]
 
 
-def print_result(result, author):
-    for similar_aid, score in result.iteritems():
-        print(similar_aid, '\t', author.loc[similar_aid][1], '\t', score)
+def get_test_result(k, adjacencyAXA, test_actors, actors):
+    temp_results = []
 
+    for test_actor, _ in test_actors.iterrows():
+        top_k = top_k_similar(test_actor, k, adjacencyAXA, actors)
+        temp_results.append(top_k.index.tolist())
 
-author = read_author()
+    resultAXA = pandas.DataFrame(temp_results)
+    resultAXA = resultAXA.set_index(test_actors.index.values)
+    return resultAXA
 
-print('\nadjacency matrix for APVPA is created:')
-adjacencyAPVPA = create_adjacency_matrix('APVPA', author)
+# parse arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("datafile")
+parser.add_argument("traindir")
+parser.add_argument("testdir")
+args = parser.parse_args()
 
-print('\nThe top similar authors to A. Apple using APVPA are:\n')
-result = top_k_similar(42166, 5, adjacencyAPVPA, author)
-print_result(result, author)
+actors = read_x(constants.ACTOR, args.traindir)
+test_actors = read_x(constants.ACTOR, args.testdir)
+
+adjacencyARA = create_adjacency_matrix('ARA', actors, args.traindir)
+adjacencyARLRA = create_adjacency_matrix('ARA', actors, args.traindir)
+
+# compute result using meta-path ARA
+resultARA = get_test_result(5, adjacencyARA, test_actors, actors)
+resultARA.to_csv('ppagerankARA_5.csv', header=False)
