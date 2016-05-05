@@ -51,10 +51,11 @@ for test_actor, similars in matrixTA.iterrows():
             pass  # print(similar, "doesn't exist in matrixARA")
 
 print(
+    "\nFor ", args.test_result_csv, ":\n",
     "Out of your total ", total_simialrs, "predictions, ",
     correct_similars, "of them are indeed co-commiters. ")
-print("That's ", correct_similars / total_simialrs, "percent corrent. ")
-print("See eval_result.csv to know which of them you got wrong. ")
+print("That's ", correct_similars / total_simialrs * 100, "percent corrent. ")
+print("(See eval_result.csv to know which of them you got wrong. )")
 
 # print(eval_result)
 eval_result.to_csv('eval_result.csv', header=False)
