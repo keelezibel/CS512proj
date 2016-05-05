@@ -1,7 +1,6 @@
 import pandas
 import numpy
 import csv
-import time
 
 import constants
 
@@ -91,58 +90,12 @@ def print_result(result, author):
     for similar_aid, score in result.iteritems():
         print(similar_aid, '\t', author.loc[similar_aid][1], '\t', score)
 
-preprocessing_start = time.process_time()
 
 author = read_author()
-preprocessing_done = time.process_time()
-print('\nPreprocessing takes %.2f sec. ' % (
-    preprocessing_done - preprocessing_start))
 
 print('\nadjacency matrix for APVPA is created:')
 adjacencyAPVPA = create_adjacency_matrix('APVPA', author)
 
-adjacencyAPVPA_done = time.process_time()
-print('\nCreateing adjacency matrix APVPA takes %.2f sec. ' % (
-    adjacencyAPVPA_done - preprocessing_done))
-
-'''
 print('\nThe top similar authors to A. Apple using APVPA are:\n')
 result = top_k_similar(42166, 5, adjacencyAPVPA, author)
 print_result(result, author)
-'''
-
-print('\nThe top similar authors to Christos Faloutsos using APVPA are:\n')
-result = top_k_similar(68855, 10, adjacencyAPVPA, author)
-print_result(result, author)
-
-print('\nThe top similar authors to AnHai Doan using APVPA are:\n')
-result = top_k_similar(51360, 10, adjacencyAPVPA, author)
-print_result(result, author)
-
-queryAPVPA_done = time.process_time()
-print('\nThe above queries take %.2f sec. ' % (
-    queryAPVPA_done - adjacencyAPVPA_done))
-
-print('\nadjacency matrix for APTPA is created:')
-adjacencyAPTPA = create_adjacency_matrix('APTPA', author)
-
-adjacencyAPTPA_done = time.process_time()
-print('\nCreateing adjacency matrix APTPA takes %.2f sec. ' % (
-    adjacencyAPTPA_done - queryAPVPA_done))
-
-'''
-print('\nThe top similar authors to A. Apple using APVPA are:\n')
-result = top_k_similar(42166, 5, adjacencyAPTPA, author)
-print_result(result, author)
-'''
-print('\nThe top similar authors to Xifeng Yan using APVPA are:\n')
-result = top_k_similar(66631, 10, adjacencyAPTPA, author)
-print_result(result, author)
-
-print('\nThe top similar authors to Jamie Callan using APVPA are:\n')
-result = top_k_similar(59090, 10, adjacencyAPTPA, author)
-print_result(result, author)
-
-queryAPTPA_done = time.process_time()
-print('\nThe above queries take %.2f sec. ' % (
-    queryAPTPA_done - adjacencyAPTPA_done))
