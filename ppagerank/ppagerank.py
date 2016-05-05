@@ -41,7 +41,7 @@ def create_adjacency_matrix(metapath, actors, traindir):
         adjacency.to_csv(matrix_csv)
         # print('matrix is saved')
 
-    print('\nadjacency:\n', adjacency)
+    # print('\nadjacency:\n', adjacency)
     return adjacency
 
 
@@ -99,8 +99,19 @@ actors = read_x(constants.ACTOR, args.traindir)
 test_actors = read_x(constants.ACTOR, args.testdir)
 
 adjacencyARA = create_adjacency_matrix('ARA', actors, args.traindir)
-adjacencyARLRA = create_adjacency_matrix('ARA', actors, args.traindir)
-
 # compute result using meta-path ARA
 resultARA = get_test_result(5, adjacencyARA, test_actors, actors)
 resultARA.to_csv('ppagerankARA_5.csv', header=False)
+resultARA = get_test_result(10, adjacencyARA, test_actors, actors)
+resultARA.to_csv('ppagerankARA_10.csv', header=False)
+resultARA = get_test_result(15, adjacencyARA, test_actors, actors)
+resultARA.to_csv('ppagerankARA_15.csv', header=False)
+
+adjacencyARLRA = create_adjacency_matrix('ARLRA', actors, args.traindir)
+# compute result using meta-path ARA
+resultARA = get_test_result(5, adjacencyARLRA, test_actors, actors)
+resultARA.to_csv('ppagerankARLRA_5.csv', header=False)
+resultARA = get_test_result(10, adjacencyARLRA, test_actors, actors)
+resultARA.to_csv('ppagerankARLRA_10.csv', header=False)
+resultARA = get_test_result(15, adjacencyARLRA, test_actors, actors)
+resultARA.to_csv('ppagerankARLRA_15.csv', header=False)
