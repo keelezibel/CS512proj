@@ -46,6 +46,10 @@ For example,
 ```
 python eval.py '../pathsim/pathsimARLRA_5.csv' '../pathsim/test_data/matrixARA.csv'
 ```
+or
+```
+python eval.py '../ppagerank/ppagerankARA_15.csv' '../pathsim/test_data/matrixARA.csv'
+```
 
 You could see the generated file `eval_result.csv` to know which prediction you got wrong.
 For example, if your test result looks like:
