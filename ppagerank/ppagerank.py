@@ -35,8 +35,8 @@ def create_adjacency_matrix(metapath, actors, traindir):
         adjacency = get_adjacency(metapath, traindir)
 
         # normalize the matrix
-        row_sum = adjacency.sum(axis=1)
-        adjacency = adjacency.div(row_sum, axis='rows')
+        col_sum = adjacency.sum(axis=1)
+        adjacency = adjacency.div(col_sum, axis='rows')
 
         adjacency.to_csv(matrix_csv)
         # print('matrix is saved')
